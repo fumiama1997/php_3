@@ -1,0 +1,46 @@
+課題19
+
+1.顧客毎の発注回数を取得し、名前と合わせて表示してください。
+SELECT 
+ct.customer_name,
+COUNT(ot.customer_id) AS 発注回数
+FROM 
+customer_table AS ct
+JOIN order_table AS ot
+ON ct.customer_id = ot.customer_id 
+GROUP BY 
+customer_name
+ORDER BY '発注回数' DESC ;
+
+2.値段が100円の商品に関して商品毎の売上数量を取得し、商品名と合わせて表示してください。
+
+SELECT 
+gt.goods_name,
+SUM(odt.quantity) AS 売上数量
+FROM 
+goods_table AS gt
+JOIN order_detail_table AS odt 
+ON gt.goods_id = odt.goods_id 
+WHERE gt.price = 100 
+GROUP BY 
+goods_name
+ORDER BY '売上数量' DESC;
+
+3.名前の順番が異なる。
+
+SELECT ct.customer_name,
+SUM(gt.price*odt.quantity) AS 合計金額
+FROM 
+goods_table AS gt
+JOIN order_detail_table AS odt
+ON gt.goods_id = odt.goods_id 
+JOIN order_table AS ot
+ON odt.order_id = ot.order_id 
+JOIN customer_table AS ct
+ON ot.customer_id = ct.customer_id 
+GROUP BY customer_name
+ORDER BY `ct`.`customer_id` ASC;
+
+
+
+
