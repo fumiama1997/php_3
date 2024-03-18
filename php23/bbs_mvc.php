@@ -19,7 +19,7 @@ if ($request_method === 'POST') {
 
     //nameのバリデーション
     if (check_empty($name) === true) {
-        $err_msg = '名前を入力してください';
+        $err_msg[] = '名前を入力してください';
     }
 
     if (check_name($name) !== TRUE) {
