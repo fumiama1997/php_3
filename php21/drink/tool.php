@@ -55,14 +55,14 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                 $date = date('y:m:d H:i:s');
                 $query = 'INSERT INTO information_table(name,price,create_date,update_date,status,picture) VALUES("' . $name . '",' . $price . ',"' . $date . '","' . $date . '","' . $status . '","' . $file . '")';
                 if (($result = mysqli_query($link, $query)) === false) {
-                    $error[] = 'SQL失敗:' . $sql;
+                    $error[] = 'SQL失敗:' . $query;
                 } else {
                     // 新しく追加した商品のdrink_idを取得
                     $drink_id = mysqli_insert_id($link);
                     // stock_tableへの情報追加
                     $query = 'INSERT INTO stock_table(drink_id,stock,create_date,update_date) VALUES(' . $drink_id . ',' . $piece . ',"' . $date . '","' . $date . '")';
                     if (($result = mysqli_query($link, $query)) === false) {
-                        $error[] = 'SQL失敗:' . $sql;
+                        $error[] = 'SQL失敗:' . $query;
                     } else if (count($error) === 0) {
                         // 処理確定
                         mysqli_commit($link);

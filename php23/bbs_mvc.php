@@ -1,23 +1,27 @@
 <?php
-
+// 設定ファイル読み込み
 require_once '../../include/conf/const.php';
 
+// 関数ファイル読み込み
 require_once '../../include/model/board.php';
 
+// 変数初期化
 $name = '';
 $comment = '';
 $board_data = [];
 $err_msg = [];
 
-
 // DB接続
 $link = get_db_connect();
+
+// リクエストメソッド取得
 $request_method = get_request_method();
 if ($request_method === 'POST') {
+    // POST値取得
     $name = get_post_data('name');
     $comment = get_post_data('comment');
 
-    //nameのバリデーション
+    //名前のチェック
     if (check_empty($name) === true) {
         $err_msg[] = '名前を入力してください';
     }
@@ -25,7 +29,7 @@ if ($request_method === 'POST') {
     if (check_name($name) !== TRUE) {
         $err_msg[] = '名前は20文字以内で入力してください';
     }
-
+    //ひとことのチェック
     if (check_empty($comment) === true) {
         $err_msg[] = 'ひとことを入力してください';
     }

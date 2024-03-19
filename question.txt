@@ -18,31 +18,18 @@ index.phpとresult.php要件確認。
 ※result.php要件9は任意の為に非実施。
 
 21章質問　index.phpについて
-index.phpからresult.phpへpostする際に、
+foreach文の中にある欲しい情報をpostするためにはどうしたらよいのか。
+例　コーラの情報がpostされるようしたいのに、末尾の商品の情報がpostされてしまう。
+input type hidden を　foreach文の中に入れて欲しい情報を取得しようとした。
+↓対応として
  <input type="radio" name="information" value="<?php print $value['drink_id']; ?> <?php print $value['price']; ?>">
  として2つの情報を同時に送り、result.php側で二つのValue値を分ける処理をしている。
  冗長とならないコードをどのように書けばよいか。    
- 
 
-22-8 DBハンドルとは何か
 
-この部分の$assoc_array[$key][$keys]が何をやっているのかが分からない　調べる。
-function entity_assoc_array($assoc_array)
-{
-
-    foreach ($assoc_array as $key => $value) {
-
-        foreach ($value as $keys => $values) {
-            // 特殊文字をHTMLエンティティに変換
-            $assoc_array[$key][$keys] = entity_str($values);
-            var_dump($assoc_array[$key][$keys]);
-        }
-    }
-    return $assoc_array;
-}
 
 
 
  進捗状況
- 23章序盤
+ 23章中級
                        

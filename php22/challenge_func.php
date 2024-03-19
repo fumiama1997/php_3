@@ -47,8 +47,9 @@ function calc_bmi($height, $weight)
 {
     //身長をメートル単位にする。
     $height = $height / 100;
+    // BMIを計算
     $bmi = $weight / ($height * $height);
-    //bmiを小数第２位で四捨五入
+    //BMIを小数第2位で四捨五入
     $bmi = round($bmi,1);
     //返り値
     return $bmi;
@@ -67,9 +68,9 @@ function check_float($float)
     // 値が正の整数又は小数か確認
     $regexp_float =  '/^[1-9][0-9]{0,2}\.?[0-9]*$/';
     if (preg_match($regexp_float, $float, $matchs) === 1) {
-        return true;
+        return TRUE;
     } else {
-        return false;
+        return FALSE;
     }
 }
 /////////////////////
