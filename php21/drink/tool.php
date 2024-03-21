@@ -103,7 +103,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                 if (($result = mysqli_query($link, $query)) === false) {
                     $error[] = '在庫変更失敗';
                 } else {
-                    $date = date('y:m:d H:i:s');
+                    $date = date('y-m-d H-i-s');
                     $query = 'UPDATE stock_table set update_date = "' . $date . '" WHERE drink_id = ' . $drink_id . ' ';
                     if (($result = mysqli_query($link, $query)) === false) {
                         $error[] = '更新日付変更失敗';

@@ -65,7 +65,7 @@ function calc_bmi($height, $weight)
 // check_float関数作成
 function check_float($float)
 {
-    // 値が正の整数又は小数か確認
+    // 値が正の整数又は小数か確認する(正規表現推奨)
     $regexp_float =  '/^[1-9][0-9]{0,2}\.?[0-9]*$/';
     if (preg_match($regexp_float, $float, $matchs) === 1) {
         return TRUE;
