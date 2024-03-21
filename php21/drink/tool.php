@@ -1,3 +1,13 @@
+<!-- 21章 自動販売機 
+tool.php 要件確認済み
+コード修正
+・HTML　status　if文分岐　inputタグごとにまとめる
+・新規追加、在庫数変更、ステータス変更ごとにnameを付けpost送信後の処理を個別に分ける。
+・クエリ実行ができれば次のクエリ実行に進むようにelse文で繋げた。
+(前回はクエリ実行ごとにif(empty($error))を記載していた)
+・新しく追加した商品のオートインクリメントをmysqli_insert_id($link)を用いて取得　
+(前回はselectのクエリ実行にてidを取得し冗長となっていた。)
+・在庫変更・ステータス変更にてupdate_dateの日付が更新される仕様を追加 -->
 <?php
 date_default_timezone_set('Asia/Tokyo');
 $regexp_half_size_number =  '/^[0-9]+$/';
@@ -219,7 +229,7 @@ mysqli_close($link);
             <tr <?php if (($value['status']) === '0') {
                     print 'bgcolor=#cccccc';
                 } ?>>
-                <td><img src="picture/<?php print htmlspecialchars($value['picture'], ENT_QUOTES, 'UTF-8'); ?>"></td>
+                <td><img src="../../picture/<?php print htmlspecialchars($value['picture'], ENT_QUOTES, 'UTF-8'); ?>"></td>
                 <td><?php print htmlspecialchars($value['name'], ENT_QUOTES, 'UTF-8'); ?></td>
                 <td><?php print htmlspecialchars($value['price'], ENT_QUOTES, 'UTF-8'); ?></td>
                 <!-- 在庫数変更部分 -->

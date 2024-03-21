@@ -70,7 +70,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                     <div class="child">
 
                         <div>
-                            <img src="picture\<?php print htmlspecialchars($value['picture'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <img src="../../picture/<?php print htmlspecialchars($value['picture'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         <div>
                             <?php print htmlspecialchars($value['name'], ENT_QUOTES, 'UTF-8'); ?>

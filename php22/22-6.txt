@@ -1,0 +1,14 @@
+fuga関数内
+
+fuga:a = 1
+fuga:b = 101
+fuga:c = 11
+fuga:d = 11
+fuga:DEF = エラー　定数の再宣言
+
+fuga関数実行後
+fuga_after: a = 10
+fuga_after: b = 10 
+fuga_after: c = 10
+fuga_after: d = 11
+fuga_after: DEF = 10

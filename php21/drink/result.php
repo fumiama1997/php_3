@@ -1,17 +1,3 @@
-<!-- 次回やること
-指定ドリンクの在庫を確認し、もし在庫がなかった場合はエラーメッセージを表示して、ドリンクを購入することはできない（確認手順の例は以下になります）。
-購入ページで、在庫がある商品を表示する。
-
-
-もう１つのブラウザで管理ページを表示させて、購入予定の在庫がある商品の在庫数を0に変更する（在庫なしにする）。
-別のブラウザで開いていた購入ページで、在庫数を0に変更した商品を選択して、購入するボタンを押した場合、エラーメッセージが表示されること
-
-指定ドリンクのステータスを確認し、もしステータスが非公開の場合はエラーメッセージを表示して、ドリンクを購入することはできない（確認手順の例は以下になります）。
-購入ページで、ステータスが公開の商品を表示する。
-もう１つのブラウザで管理ページを表示させて、購入予定のステータスが公開である商品について、ステータスを非公開に変更する（ステータスを非公開にする）。
-別のブラウザで開いていた購入ページで、ステータスを非公開に変更した商品を選択して、購入するボタンを押した場合、エラーメッセージが表示されること。
-ドリンクの購入が正常に完了した場合、指定ドリンクと購入日時の情報をデータベースに保存する（※この要件は必須ではなく任意です）。 -->
-
 <?php
 $host   = 'localhost';
 $user   = 'root';
@@ -25,7 +11,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
 
     mysqli_set_charset($link, 'UTF8');
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+        //information（drink_id 商品価格）の情報がpostされてくる。
         if ((isset($_POST['information'])) === false) {
             $error[] = '商品を選択してください';
         } else if (isset($_POST['information'])) {
@@ -46,6 +32,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                 $error[] = '商品の価格が不正です';
             }
         }
+        //投入金額
         if (isset($_POST['money'])) {
             $money = $_POST['money'];
 
@@ -72,6 +59,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                     $price = $row['price'];
                     $stock = $row['stock'];
                     $status = $row['status'];
+                    //おつり
                     $money = $money - $price;
 
                     if ((intval($stock) === 0)) {
@@ -104,7 +92,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
     <h1>自動販売機結果</h1>
 
     <?php if ((empty($error))) { ?>
-        <img src="picture\<?php print htmlspecialchars($picture, ENT_QUOTES, 'UTF-8'); ?>">
+        <img src="../../picture/<?php print htmlspecialchars($picture, ENT_QUOTES, 'UTF-8'); ?>">
         <p>がしゃん！[<?php print $name; ?>]が買えました！</p>
         <p>おつりは[<?php print $money; ?>円]です</p>
 
