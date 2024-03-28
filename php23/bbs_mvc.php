@@ -26,14 +26,14 @@ if ($request_method === 'POST') {
         $err_msg[] = '名前を入力してください';
     }
 
-    if (check_name($name) !== TRUE) {
+    if (check_text_count($name,20) !== TRUE) {
         $err_msg[] = '名前は20文字以内で入力してください';
     }
     //ひとことのチェック
     if (check_empty($comment) === true) {
         $err_msg[] = 'ひとことを入力してください';
     }
-    if (check_comment($comment) !== TRUE) {
+    if (check_text_count($comment,100) !== TRUE) {
         $err_msg[] = 'ひとことは100文字以内で入力してください';
     }
     // 正常処理

@@ -27,40 +27,43 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                 } else if (is_numeric($drink_id) === false) {
                     $error[] = 'drink_idが不正です';
                 }
+                //$_POST['drink_id']がセットされている前提で下記処理が行われていく。
+                if (empty($error)) {
+                    $query = 'SELECT it.status,it.picture,it.name,it.price,st.stock FROM information_table AS it JOIN stock_table AS st ON  it.drink_id = st.drink_id WHERE it.drink_id = ' . $drink_id . '';
+                    if (($result = mysqli_query($link, $query)) === false) {
+                        $error[] = 'SQL失敗:';
+                    } else {
+                        $row = mysqli_fetch_assoc($result);
+                        mysqli_free_result($result);
+                        if (isset($row)) {
+                            $picture = $row['picture'];
+                            $name = $row['name'];
+                            $price = $row['price'];
+                            $stock = $row['stock'];
+                            $status = $row['status'];
 
-                $query = 'SELECT it.status,it.picture,it.name,it.price,st.stock FROM information_table AS it JOIN stock_table AS st ON  it.drink_id = st.drink_id WHERE it.drink_id = ' . $drink_id . '';
-                if (($result = mysqli_query($link, $query)) === false) {
-                    $error[] = 'SQL失敗:';
-                } else {
-                    $row = mysqli_fetch_assoc($result);
-                    mysqli_free_result($result);
-                    if (isset($row)) {
-                        $picture = $row['picture'];
-                        $name = $row['name'];
-                        $price = $row['price'];
-                        $stock = $row['stock'];
-                        $status = $row['status'];
+                            //在庫数のバリデーション
+                            if ((intval($stock) === 0)) {
+                                $error[] = '在庫がありません';
+                            }
 
+                            //公開ステ―タスのバリデーション
+                            if ($status === '0') {
+                                $error[] = 'ステータスが非公開の為購入できません';
+                            }
 
-                        //在庫数のバリデーション
-                        if ((intval($stock) === 0)) {
-                            $error[] = '在庫がありません';
-                        }
-
-                        //公開ステ―タスのバリデーション
-                        if ($status === '0') {
-                            $error[] = 'ステータスが非公開の為購入できません';
+                            //投入額よりも商品の価格が高くないか
+                            if ((intval($_POST['money'])) < (intval($price))) {
+                                $error[] = 'お金が足りません！';
+                            } else {
+                                $change = $_POST['money'] - $price;
+                            }
                         }
                     }
                 }
 
                 // 結果表示ページに必要な情報を取得する
                 if (empty($error)) {
-                    if ((intval($_POST['money'])) < (intval($price))) {
-                        $error[] = 'お金が足りません！';
-                    } else {
-                        $change = $_POST['money'] - $price;
-                    }
                     $query = 'UPDATE stock_table SET stock = stock - 1 WHERE drink_id = ' . $drink_id . ' ';
                     if (($result = mysqli_query($link, $query)) === false) {
                         $error[] = 'SQL失敗:';

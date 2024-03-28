@@ -28,13 +28,13 @@ if (get_request_method() === 'POST') {
     // 「名前」の入力値をチェック
     if (check_empty($name) === true) {
         $error[] = '名前を入力してください';
-    } else if (check_text_count($name,20) === false) {
+    } else if (check_text_count($name, 20) === false) {
         $error[] = '名前は20文字以内で入力してください';
     }
     // 「コメント」の入力値をチェック
     if (check_empty($comment) === true) {
         $error[] = 'ひとこと入力してください';
-    } else if (check_comment($comment) === false) {
+    } else if (check_text_count($comment, 100) === false) {
         $error[] = 'ひとことは100文字以内で入力してください';
     }
 
@@ -57,7 +57,7 @@ entity_assoc_array($board_data);
 
 function get_db_connect()
 {
-    // コネクション取得
+    // 新規に MySQL サーバーへの接続をオープンする
     if (!$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWD, DB_NAME)) {
         die('error: ' . mysqli_connect_error());
     }
@@ -73,26 +73,10 @@ function get_request_method()
 {
     return $_SERVER['REQUEST_METHOD'];
 }
-function check_text_count($str,$count)
+
+function check_text_count($str, $count)
 {
     if (mb_strlen($str) > $count) {
-        return false;
-    } else {
-        return true;
-    }
-}
-function check_name($name)
-{
-    if (mb_strlen($name) > 20) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function check_comment($comment)
-{
-    if (mb_strlen($comment) > 100) {
         return false;
     } else {
         return true;
@@ -114,7 +98,7 @@ function insert_table($name, $comment, $link)
     $date = date('Y-m-d H:i:s');
     $sql = 'INSERT INTO board_table(board_name,comment,datetime) VALUES("' . $name . '","' . $comment . '","' . $date . '")';
     if (($result = mysqli_query($link, $sql)) === false) {
-        $error[] = '追加失敗';
+        return  $error[] = '追加失敗';
     }
 }
 
@@ -167,7 +151,6 @@ function entity_assoc_array($assoc_array)
             $assoc_array[$key][$keys] = entity_str($values);
         }
     }
-
     return $assoc_array;
 }
 
