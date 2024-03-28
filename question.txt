@@ -5,30 +5,23 @@
 tool.php 要件確認済み
 コード修正
 ・HTML　status　if文分岐　inputタグごとにまとめる
-下記部分　trueなら　下記hiddennのvalue値が0と直打ちすればよい　出なければvalue値１と書く
-   <form method="post">
-                    <?php if ($value['status'] === '1') { ?>
-                        <td><input type="submit" value="公開→非公開" name="status_change"></td>
-                        <?php $value['status'] = '0'; ?>
-                    <?php } else if ($value['status'] === '0') { ?>
-                        <td><input type="submit" value="非公開→公開" name="status_change"></td>
-                        <?php $value['status'] = '1'; ?>
-                    <?php } ?>
-
-                    <input type="hidden" name="status" value="<?php print $value['status']; ?>">
-                    <input type="hidden" name="drink_id" value="<?php print $value['drink_id']; ?>">
-
-tool.php 在庫ステータス部分の　updateについて
+　trueなら　下記hiddennのvalue値が0と直打ちすればよい　出なければvalue値１と書く
+ 
+・tool.php 在庫とステータス変更部分　updateについて
 在庫とupdate_dateのクエリを一つにまとめる。
-んでまとめたらトランザクションいらないから消す
+(前回はクエリ二つ実行かつトランザクションを使用していた)
 
 
 index.phpとresult.php要件確認済み
 
+
+
+
 要件確認出来たらコードチェックの前に質問
 21章質問　index.phpについて
 そもそもdrink_idのみ情報があれば、selectでなんでも情報を持ってこれるのでidさえ取得できるようにすればよい  
-
+↓
+できたと思うので口頭で説明してみよう。
 
 
 22-6,9クリア

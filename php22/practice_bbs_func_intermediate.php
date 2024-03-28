@@ -28,7 +28,7 @@ if (get_request_method() === 'POST') {
     // 「名前」の入力値をチェック
     if (check_empty($name) === true) {
         $error[] = '名前を入力してください';
-    } else if (check_name($name) === false) {
+    } else if (check_text_count($name,20) === false) {
         $error[] = '名前は20文字以内で入力してください';
     }
     // 「コメント」の入力値をチェック
@@ -73,7 +73,14 @@ function get_request_method()
 {
     return $_SERVER['REQUEST_METHOD'];
 }
-
+function check_text_count($str,$count)
+{
+    if (mb_strlen($str) > $count) {
+        return false;
+    } else {
+        return true;
+    }
+}
 function check_name($name)
 {
     if (mb_strlen($name) > 20) {

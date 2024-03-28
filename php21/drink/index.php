@@ -63,7 +63,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
 <body>
     <h1>自動販売機</h1>
     <form method="post" action="./result.php">
-        <p>金額 <input type="text" name="money"></p>
+        <p>金額 <input type="text" name= "money"></p>
         <div class="row">
             <?php foreach ($goods_data as $value) {  ?>
                 <?php if ($value['status'] === '1') { ?>
@@ -86,14 +86,14 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                             </div>
                         <?php } else { ?>
                             <div>
-                                <input type="radio" name="information" value="<?php print $value['drink_id']; ?> <?php print $value['price']; ?>">
+                                <input type="radio" name="drink_id" value='<?php print $value['drink_id']; ?>'>
                             </div>
                         <?php } ?>
                     </div>
                 <?php } ?>
             <?php } ?>
         </div>
-        <input type="submit" value="■□■□■購入■□■□■">
+        <input type="submit" name="information" value="■□■□■購入■□■□■">
     </form>
 
 </body>

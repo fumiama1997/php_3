@@ -98,58 +98,36 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                 $error[] = '個数は半角数字を入力してください';
             }
             if (empty($error)) {
-                mysqli_autocommit($link, false);
-                $query = 'UPDATE stock_table set stock = ' . $stock . ' WHERE drink_id = ' . $drink_id . ' ';
+                $date = date('y-m-d H-i-s');
+                $query = 'UPDATE stock_table set stock = ' . $stock . ' , update_date = "' . $date . '" WHERE drink_id = ' . $drink_id . ' ';
                 if (($result = mysqli_query($link, $query)) === false) {
                     $error[] = '在庫変更失敗';
                 } else {
-                    $date = date('y-m-d H-i-s');
-                    $query = 'UPDATE stock_table set update_date = "' . $date . '" WHERE drink_id = ' . $drink_id . ' ';
-                    if (($result = mysqli_query($link, $query)) === false) {
-                        $error[] = '更新日付変更失敗';
-                    } else if (count($error) === 0) {
-                        // 処理確定
-                        mysqli_commit($link);
-                        $change = '在庫変更成功';
-                    } else {
-                        // 処理取消
-                        mysqli_rollback($link);
-                    }
+                    $change = '在庫変更成功';
                 }
             }
         }
+    }
 
 
 
-        //ステータス変更時
-        if (isset($_POST['status_change'])) {
-            $drink_id = $_POST['drink_id'];
-            $status = $_POST['status'];
-            if (is_numeric($drink_id) === false) {
-                $error[] = 'idの値が不正です';
-            }
-            if ((($status === '0') || ($status === '1')) === false) {
-                $error[] = '公開ステータスの値が不正です';
-            }
-            if (empty($error)) {
-                mysqli_autocommit($link, false);
-                $query = 'UPDATE information_table set status = ' . $status . ' WHERE drink_id = ' . $drink_id . ' ';
-                if (($result = mysqli_query($link, $query)) === false) {
-                    $error[] = 'ステータス変更失敗';
-                } else {
-                    $date = date('y:m:d H:i:s');
-                    $query = 'UPDATE information_table set update_date = "' . $date . '" WHERE drink_id = ' . $drink_id . ' ';
-                    if (($result = mysqli_query($link, $query)) === false) {
-                        $error[] = '更新日付変更失敗';
-                    } else if (count($error) === 0) {
-                        // 処理確定
-                        mysqli_commit($link);
-                        $change = 'ステータス変更成功';
-                    } else {
-                        // 処理取消
-                        mysqli_rollback($link);
-                    }
-                }
+    //ステータス変更時
+    if (isset($_POST['status_change'])) {
+        $drink_id = $_POST['drink_id'];
+        $status = $_POST['status'];
+        if (is_numeric($drink_id) === false) {
+            $error[] = 'idの値が不正です';
+        }
+        if ((($status === '0') || ($status === '1')) === false) {
+            $error[] = '公開ステータスの値が不正です';
+        }
+        if (empty($error)) {
+            $date = date('y:m:d H:i:s');
+            $query = 'UPDATE information_table set status = ' . $status . ' , update_date = "' . $date . '" WHERE drink_id = ' . $drink_id . ' ';
+            if (($result = mysqli_query($link, $query)) === false) {
+                $error[] = 'ステータス変更失敗';
+            } else {
+                $change = 'ステータス変更成功';
             }
         }
     }
@@ -243,14 +221,13 @@ mysqli_close($link);
                 <form method="post">
                     <?php if ($value['status'] === '1') { ?>
                         <td><input type="submit" value="公開→非公開" name="status_change"></td>
-                        <?php $value['status'] = '0'; ?>
+                        <input type="hidden" name="status" value='0'>
+                        <input type="hidden" name="drink_id" value="<?php print $value['drink_id']; ?>">
                     <?php } else if ($value['status'] === '0') { ?>
                         <td><input type="submit" value="非公開→公開" name="status_change"></td>
-                        <?php $value['status'] = '1'; ?>
+                        <input type="hidden" name="status" value='1'>
+                        <input type="hidden" name="drink_id" value="<?php print $value['drink_id']; ?>">
                     <?php } ?>
-
-                    <input type="hidden" name="status" value="<?php print $value['status']; ?>">
-                    <input type="hidden" name="drink_id" value="<?php print $value['drink_id']; ?>">
                     </td>
                 </form>
             </tr>
