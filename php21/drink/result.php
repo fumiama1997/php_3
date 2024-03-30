@@ -24,11 +24,10 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                 //drink_idのバリデーション
                 if ($drink_id === '') {
                     $error[] = 'drink_idが空です';
-                } else if (is_numeric($drink_id) === false) {
+                } else if ((is_numeric($drink_id)) === false) {
                     $error[] = 'drink_idが不正です';
-                }
-                //$_POST['drink_id']がセットされている前提で下記処理が行われていく。
-                if (empty($error)) {
+                } else {
+                    //drink_idが上記バリデーションを通過できた場合下記のコードへつながる
                     $query = 'SELECT it.status,it.picture,it.name,it.price,st.stock FROM information_table AS it JOIN stock_table AS st ON  it.drink_id = st.drink_id WHERE it.drink_id = ' . $drink_id . '';
                     if (($result = mysqli_query($link, $query)) === false) {
                         $error[] = 'SQL失敗:';
@@ -41,6 +40,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                             $price = $row['price'];
                             $stock = $row['stock'];
                             $status = $row['status'];
+                            $money = $_POST['money'];
 
                             //在庫数のバリデーション
                             if ((intval($stock) === 0)) {
@@ -53,10 +53,10 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                             }
 
                             //投入額よりも商品の価格が高くないか
-                            if ((intval($_POST['money'])) < (intval($price))) {
+                            if ((intval($money)) < (intval($price))) {
                                 $error[] = 'お金が足りません！';
                             } else {
-                                $change = $_POST['money'] - $price;
+                                $change = $money - $price;
                             }
                         }
                     }

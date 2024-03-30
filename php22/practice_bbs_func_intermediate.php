@@ -41,7 +41,7 @@ if (get_request_method() === 'POST') {
     // 正常処理
     if (empty($error)) {
         // テーブルへデータを挿入(INSERT)
-        insert_table($name, $comment, $link);
+        $error[] = insert_table($name, $comment, $link);
     }
 }
 

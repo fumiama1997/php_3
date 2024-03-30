@@ -93,9 +93,9 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                 $error[] = 'idの値が不正です';
             }
             if ($stock === '') {
-                $error[] = '個数を入力してください';
+                $error[] = '在庫数を入力してください';
             } else if (preg_match($regexp_half_size_number, $stock, $macths) === 0) {
-                $error[] = '個数は半角数字を入力してください';
+                $error[] = '在庫数は半角数字を入力してください';
             }
             if (empty($error)) {
                 $date = date('y-m-d H-i-s');
