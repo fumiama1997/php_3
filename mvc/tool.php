@@ -57,17 +57,19 @@ if ($request_method === 'POST') {
 
             mysqli_autocommit($link, false);
 
-            $error[] = insert_information_table($name, $price, $date, $status, $file, $link);
+            $result = insert_information_table($name, $price, $date, $status, $file, $link);
 
             // 新しく追加した商品のdrink_idを取得
             $drink_id = mysqli_insert_id($link);
 
-            $error[] = insert_stock_table($drink_id, $piece, $date, $link);
+            if ($result === true) {
+                $result = insert_stock_table($drink_id, $piece, $date, $link);
+            }
 
-            if (count($error) === 0) {
+            if ($result === true) {
                 // 処理確定
                 mysqli_commit($link);
-                $change = '新規商品追加成功';
+                $result = '新規商品追加成功';
             } else {
                 // 処理取消
                 mysqli_rollback($link);
@@ -107,8 +109,8 @@ if ($request_method === 'POST') {
         if (check_status($status) === false) {
             $error[] = 'ステータスが不正です';
         }
-        if(empty($error)){
-            $result  = update_status_table($status,$drink_id,$link);
+        if (empty($error)) {
+            $result  = update_status_table($status, $drink_id, $link);
         }
     }
 }

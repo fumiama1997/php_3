@@ -6,7 +6,7 @@ require_once '../../include/model/drink.php';
 $error = [];
 // DB接続
 $link = get_db_connect();
-
+$result = false;
 
 // リクエストメソッド取得
 $request_method = get_request_method();
@@ -16,8 +16,12 @@ if ($request_method === 'POST') {
         //moneyのバリデーション
         if (check_empty($_POST['money']) === true) {
             $error[] = 'お金を投入してください';
+            $money_result = false;
         } else if ((is_numeric($_POST['money'])) === false) {
             $error[] = 'お金は半角数字で入力してください';
+            $money_result = false;
+        } else {
+            $money_result = true;
         }
 
         //drink_idのバリデーション
@@ -51,14 +55,15 @@ if ($request_method === 'POST') {
                 if ($status === '0') {
                     $error[] = 'ステータスが非公開の為購入できません';
                 }
-
-                //投入nough額よりも商品の価格が高くないか
-                if ((check_not_enough($money, $price)) === true) {
-                    $error[] = 'お金が足りません！';
-                } else {
-                    $change = $money - $price;
+                //上記のmoneyのバリデーションを通過しており
+                //投入額よりも商品の価格が高くないか
+                if ($money_result === true) {
+                    if ((check_not_enough($money, $price)) === true) {
+                        $error[] = 'お金が足りません！';
+                    } else {
+                        $change = $money - $price;
+                    }
                 }
-
                 //if(empty($error)) update 在庫数が一個減るようにする(関数を作る。)
                 if (empty($error)) {
                     $result = update_stock_quantity($link, $drink_id);
@@ -68,15 +73,5 @@ if ($request_method === 'POST') {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 include_once '../../include/view/result.php';
