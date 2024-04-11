@@ -6,7 +6,7 @@ require_once '../../include/model/drink.php';
 $error = [];
 // DB接続
 $link = get_db_connect();
-$result = false;
+$money_result = true;
 
 // リクエストメソッド取得
 $request_method = get_request_method();
@@ -20,9 +20,8 @@ if ($request_method === 'POST') {
         } else if ((is_numeric($_POST['money'])) === false) {
             $error[] = 'お金は半角数字で入力してください';
             $money_result = false;
-        } else {
-            $money_result = true;
-        }
+        } 
+
 
         //drink_idのバリデーション
         //isset empty is_numeric 

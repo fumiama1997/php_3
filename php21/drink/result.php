@@ -5,7 +5,7 @@ $passwd = 'narait';
 $dbname = 'drink';
 $name = '';
 $stock = '';
-
+$result_money = true;
 if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
     mysqli_set_charset($link, 'UTF8');
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -13,8 +13,10 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
 
             if (empty($_POST['money'])) {
                 $error[] = 'お金を投入してください';
+                $result_money = false;
             } else if ((is_numeric($_POST['money'])) === false) {
                 $error[] = 'お金は半角数字を入力してください';
+                $result_money = false;
             }
 
             if (isset($_POST['drink_id']) === false) {
@@ -51,12 +53,14 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                             if ($status === '0') {
                                 $error[] = 'ステータスが非公開の為購入できません';
                             }
-
+                        
                             //投入額よりも商品の価格が高くないか
-                            if ((intval($money)) < (intval($price))) {
-                                $error[] = 'お金が足りません！';
-                            } else {
-                                $change = $money - $price;
+                            if ($result_money === true) { 
+                                if ((intval($money)) < (intval($price))) {
+                                    $error[] = 'お金が足りません！';
+                                } else {
+                                    $change = $money - $price;
+                                }
                             }
                         }
                     }
