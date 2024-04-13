@@ -41,10 +41,11 @@ if (get_request_method() === 'POST') {
     // 正常処理
     if (empty($error)) {
         // テーブルへデータを挿入(INSERT)
-        $error[] = insert_table($name, $comment, $link);
+        if ((insert_table($name, $comment, $link)) === false) {
+            $error[] = 'データ追加失敗';
+        }
     }
 }
-
 // テーブルからデータを取得(SELECT)
 $board_data = get_table_list($link);
 
@@ -97,7 +98,9 @@ function insert_table($name, $comment, $link)
     $date = date('Y-m-d H:i:s');
     $sql = 'INSERT INTO board_table(board_name,comment,datetime) VALUES("' . $name . '","' . $comment . '","' . $date . '")';
     if (($result = mysqli_query($link, $sql)) === false) {
-        return  $error[] = '追加失敗';
+        return  false;
+    } else {
+        return true;
     }
 }
 
