@@ -1,4 +1,5 @@
 <?php
+
 $host   = 'localhost';
 $user   = 'root';
 $passwd = 'narait';
@@ -6,6 +7,7 @@ $dbname = 'drink';
 $name = '';
 $stock = '';
 $result_money = true;
+
 if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
     mysqli_set_charset($link, 'UTF8');
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -53,9 +55,9 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                             if ($status === '0') {
                                 $error[] = 'ステータスが非公開の為購入できません';
                             }
-                        
+
                             //投入額よりも商品の価格が高くないか
-                            if ($result_money === true) { 
+                            if ($result_money === true) {
                                 if ((intval($money)) < (intval($price))) {
                                     $error[] = 'お金が足りません！';
                                 } else {

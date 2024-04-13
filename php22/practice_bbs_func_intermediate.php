@@ -94,7 +94,6 @@ function check_empty($str)
 
 function insert_table($name, $comment, $link)
 {
-
     $date = date('Y-m-d H:i:s');
     $sql = 'INSERT INTO board_table(board_name,comment,datetime) VALUES("' . $name . '","' . $comment . '","' . $date . '")';
     if (($result = mysqli_query($link, $sql)) === false) {
