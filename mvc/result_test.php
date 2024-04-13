@@ -23,6 +23,7 @@ if ($request_method === 'POST') {
             $error[] = 'お金は半角数字で入力してください';
         }
 
+        // POSTされた値を変数に格納
         if (isset($_POST['drink_id']) === false) {
             $error[] = '商品を選択してください';
         } else {
@@ -34,7 +35,7 @@ if ($request_method === 'POST') {
             } else if ((is_numeric($drink_id)) === false) {
                 $error[] = 'drink_idが不正です';
             } else {
-                //drink_idに紐付いたレコードを取得
+
                 $drink_data = get_table_individual_list($link, $drink_id);
 
                 // 商品が見つからない場合
@@ -43,30 +44,27 @@ if ($request_method === 'POST') {
                 }
 
                 //在庫数のバリデーション
-                if ((intval($drink_data[0]['stock']) <= 0)) {
+                if ((intval($drink_data['stock']) <= 0)) {
                     $error[] = '在庫がありません';
                 }
 
                 //公開ステ―タスのバリデーション
-                if ($drink_data[0]['status'] === '0') {
+                if ($drink_data['status'] === '0') {
                     $error[] = 'ステータスが非公開の為購入できません';
                 }
 
-                //投入額よりも商品の価格が高くないか
-                if (empty($error)) {
-                    if ((check_not_enough($money, $drink_data[0]['price'])) === true) {
-                        $error[] = 'お金が足りません！';
-                    }
+                if ((check_not_enough($money, $drink_data['price'])) === true) {
+                    $error[] = 'お金が足りません！';
                 }
+            }
 
-                //if(empty($error)) update 在庫数が一個減るように
-                if (empty($error)) {
-                    if (update_stock_quantity($link, $drink_id)) {
-                        // おつりの計算
-                        $change = $money - $drink_data[0]['price'];
-                    } else {
-                        $error[] = '在庫数の更新に失敗しました';
-                    }
+            //if(empty($error)) update 在庫数が一個減るようにする(関数を作る。)
+            if (empty($error)) {
+                if (update_stock_quantity($link, $drink_id)) {
+                    // おつりの計算
+                    $change = $money - $drink_data['price'];
+                } else {
+                    $error[] = '在庫数の更新に失敗しました';
                 }
             }
         }

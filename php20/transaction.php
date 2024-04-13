@@ -6,9 +6,9 @@
  */
 // MySQL接続情報
 $host   = 'localhost'; // データベースのホスト名又はIPアドレス
-$user   = 'root';  // MySQLのユーザ名
-$passwd = 'narait';    // MySQLのパスワード
-$dbname = 'user';    // データベース名
+$user   = 'username';  // MySQLのユーザ名
+$passwd = 'passwd';    // MySQLのパスワード
+$dbname = 'dbname';    // データベース名
 $customer_id = 1;          // 例題のため顧客は1に固定
 $payment = 'クレジット'; // 例題のため購入方法はクレジットに固定する
 $quantity = 1;          // 例題のため数量は1に固定
@@ -53,11 +53,7 @@ if ($link = mysqli_connect($host, $user, $passwd, $dbname)) {
                 'quantity' => $quantity
             ];
             // 注文詳細情報をinsertする
-            $sql = 'INSERT INTO order_detail_table (order_id, goods_id, quantity) 
-            VALUES(\'' . implode('\',\'', $data) . '\')';
-            var_dump($data);
-            var_dump($sql);
-            var_dump(implode('\',\'', $data));
+            $sql = 'INSERT INTO order_detail_table (order_id, goods_id, quantity) VALUES(\'' . implode('\',\'', $data) . '\')';
             // insertを実行する
             if (mysqli_query($link, $sql) !== TRUE) {
                 $err_msg[] = 'order_detail_table: insertエラー:' . $sql;

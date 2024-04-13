@@ -6,7 +6,7 @@ require_once '../../include/model/drink.php';
 
 $error = [];
 $drink_data = [];
-$result = '';
+$str_result = '';
 
 // DB接続
 $link = get_db_connect();
@@ -52,27 +52,27 @@ if ($request_method === 'POST') {
         }
 
         if (empty($error)) {
-
             $date = date('y:m:d H:i:s');
 
             mysqli_autocommit($link, false);
 
-            $result = insert_information_table($name, $price, $date, $status, $file, $link);
-
-            // 新しく追加した商品のdrink_idを取得
-            $drink_id = mysqli_insert_id($link);
-
-            if ($result === true) {
-                $result = insert_stock_table($drink_id, $piece, $date, $link);
-            }
-
-            if ($result === true) {
-                // 処理確定
-                mysqli_commit($link);
-                $result = '新規商品追加成功';
+            if ((insert_information_table($name, $price, $date, $status, $file, $link)) === false) {
+                $error[] = 'insert_information_table: insertエラー:';
             } else {
-                // 処理取消
-                mysqli_rollback($link);
+                // 新しく追加した商品のdrink_idを取得
+                $drink_id = mysqli_insert_id($link);
+                if ((insert_stock_table($drink_id, $piece, $date, $link)) === false) {
+                    $error[] = 'insert_stock_table: insertエラー:';
+                }
+
+                if (count($error) === 0) {
+                    // 処理確定
+                    mysqli_commit($link);
+                    $str_result = '新規商品追加成功';
+                } else {
+                    // 処理取消
+                    mysqli_rollback($link);
+                }
             }
         }
     }
