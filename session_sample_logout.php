@@ -34,5 +34,5 @@ if (isset($_COOKIE[$session_name])) {
 // セッションIDを無効化
 session_destroy();
 // ログアウトの処理が完了したらログインページへリダイレクト
-header('Location: http://codecamp.lesson.codecamp.jp/session_sample_top.php');
+header('Location: session_sample_login.php');
 exit;

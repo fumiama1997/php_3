@@ -64,15 +64,15 @@ if ($request_method === 'POST') {
                 if ((insert_stock_table($drink_id, $piece, $date, $link)) === false) {
                     $error[] = 'insert_stock_table: insertエラー:';
                 }
+            }
 
-                if (count($error) === 0) {
-                    // 処理確定
-                    mysqli_commit($link);
-                    $str_result = '新規商品追加成功';
-                } else {
-                    // 処理取消
-                    mysqli_rollback($link);
-                }
+            if (count($error) === 0) {
+                // 処理確定
+                mysqli_commit($link);
+                $str_result = '新規商品追加成功';
+            } else {
+                // 処理取消
+                mysqli_rollback($link);
             }
         }
     }

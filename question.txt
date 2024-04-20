@@ -1,50 +1,25 @@
-4/20(土) 10：00  　
+4/29(月) 10：00  　
 
-22-23章の質問・前回のフィードバックを踏まえての確認を一緒にお願いします。
+23-8　result.phpのコード 　mvc/index.phpを開く
+⓺
+→商品購入フォームにて商品ボタンのみを選択し、投入金額を空欄にした状態でsubmitすると
+　　お金を投入してくださいとお金が足りませんの二つの文字列が出てしまう ($errorの中身)。
+　　本来はお金を投入してくださいのみを表示したい
 
-22-10  php22/practice_bbs_func_intermediate.php
+if (empty($error))にて条件分岐を行うことで意図する仕様となった。
 
-→フィードバック内容
-insert関数の返り値としてfalse, trueを返すようにする。
-もし、falseであれば、$error配列に文字列を入れる。
+ しかし、if (empty($error))では、$moneyに対して以外の
+ バリデーションにて$errorに値が入った場合意図しない動きとなってしまう為正解ではない。
+ どうするのが最善か。(resultフラグ？)
 
-→前回はクエリ実行成功に対して戻り値を設定しておらず。
-成功した場合$errorに意図しないNULLが代入される形となっていた。
-
-23-8 tool.php 質問 mvc/tool.php
-if (empty($error))　内の修正
-
-→フィードバック内容
-・63行目　// 新しく追加した商品のdrink_idを取得
-            $drink_id = mysqli_insert_id($link);
-　　　　　　 上記のクエリ実行が成功し戻り値としてtrueが返ってくるのなら
-    　　　　 $drink_id = mysqli_insert_id($link);　をできるようにするように修正。
-
-・入れ子構造とすることでinsert_information_tableのクエリ実行が成功した場合のみ
-  insert_stock_tableのクエリが実行され、
-  insert_stock_tableのクエリ実行が成功し
-  二つのテーブルへの追加が成功した(つまりはcount($error) === 0)の場合のみ処理を確定するようにした。
-
-
-23-8　result.php 　mvc/result.php
 
 フィードバック内容
-・$drink_data{'status'}のように直に書き出して来ればよい。
-　 →前回は$drink_dataからforeachで中身を取り出した後
-　　変数に入れて使用していた為コードが冗長となっていたので修正。
+参考コードslackにあるので見ながら復習。
+コードの流れを確認。
 
-質問
-→$drink_data['stock']というように配列の中身を呼び出すと
-Warning: Undefined array key "stock" in C:\xampp\htdocs\mvc\result.php on line 46
-という注意が出たので
-$drink_data[0]['stock']という形に修正したがこれで良いのか。
+修正部分としてはバリデーションに($money > 0) &&を付け加えた。部分
+その他の整理を確認する。
 
-→商品購入フォームにて商品ボタンのみを選択し、投入金額を空欄にした状態でsubmitすると
-　　お金を投入してくださいとお金が足りませんの二つのエラーが出てしまう。
-　　本来はお金を投入してくださいのみを表示したい
- if (empty($error))にて条件分岐することで、行いたい仕様にはなる。
- しかし、if (empty($error))を下記と合わせて二回使ってしまうことになる。
- どうするのが最善か。
 
- 
-                
+次回24章の課題修了目標　　　　
+現状24-7作成中

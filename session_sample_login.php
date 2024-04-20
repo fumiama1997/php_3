@@ -11,7 +11,7 @@ require_once '../include/model/function.php';
 // リクエストメソッド確認
 if (get_request_method() !== 'POST') {
     // POSTでなければログインページへリダイレクト
-    header('Location: http://codecamp.lesson.codecamp.jp/session_sample_top.php');
+    header('Location: session_sample_top.php');
     exit;
 }
 // セッション開始
@@ -35,12 +35,12 @@ if (isset($data[0]['user_id'])) {
     // セッション変数にuser_idを保存
     $_SESSION['user_id'] = $data[0]['user_id'];
     // ログイン済みユーザのホームページへリダイレクト
-    header('Location: http://codecamp.lesson.codecamp.jp/session_sample_home.php');
+    header('Location: session_sample_home.php');
     exit;
 } else {
     // セッション変数にログインのエラーフラグを保存
     $_SESSION['login_err_flag'] = TRUE;
     // ログインページへリダイレクト
-    header('Location: http://codecamp.lesson.codecamp.jp/session_sample_top.php');
+    header('Location: session_sample_login.php');
     exit;
 }
