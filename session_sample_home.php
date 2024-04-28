@@ -14,7 +14,7 @@ if (isset($_SESSION['user_id']) === TRUE) {
     $user_id = $_SESSION['user_id'];
 } else {
     // 非ログインの場合、ログインページへリダイレクト
-    header('Location: http://codecamp.lesson.codecamp.jp/session_sample_top.php');
+    header('Location: session_sample_top.php');
     exit;
 }
 // データベース接続
@@ -30,7 +30,7 @@ if (isset($data[0]['user_name'])) {
     $user_name = $data[0]['user_name'];
 } else {
     // ユーザ名が取得できない場合、ログアウト処理へリダイレクト
-    header('Location: http://codecamp.lesson.codecamp.jp/session_sample_logout.php');
+    header('Location: session_sample_logout.php');
     exit;
 }
 

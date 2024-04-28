@@ -41,6 +41,6 @@ if (isset($data[0]['user_id'])) {
     // セッション変数にログインのエラーフラグを保存
     $_SESSION['login_err_flag'] = TRUE;
     // ログインページへリダイレクト
-    header('Location: session_sample_login.php');
+    header('Location: session_sample_top.php');
     exit;
 }

@@ -12,7 +12,7 @@ session_start();
 // セッション変数からログイン済みか確認
 if (isset($_SESSION['user_id']) === TRUE) {
     // ログイン済みの場合、ホームページへリダイレクト
-    header('Location: localhost//session_sample_home.php');
+    header('Location: session_sample_home.php');
     exit;
 }
 // セッション変数からログインエラーフラグを確認
