@@ -15,7 +15,7 @@ if ($request_method === 'POST') {
     if (isset($_POST['information'])) {
 
         $money = get_post_data('money');
-
+        var_dump($money );
         //moneyのバリデーション
         if (check_empty($money) === true) {
             $error[] = 'お金を投入してください';
@@ -38,7 +38,6 @@ if ($request_method === 'POST') {
             } else {
                 //drink_idに紐付いたレコードを取得
                 $drink_data = get_table_individual_list($link, $drink_id);
-var_dump($drink_data);
                 // 商品が見つからない場合
                 if (empty($drink_data)) {
                     $error[] = '商品が見つかりません';
@@ -55,6 +54,8 @@ var_dump($drink_data);
                 }
 
                 //投入額よりも商品の価格が高くないか
+                
+                var_dump($money > 0);
                     if ( ($money > 0) && (check_not_enough($money, $drink_data['price'])) === true) {
                         $error[] = 'お金が足りません！';
                     }
